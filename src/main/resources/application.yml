@@ -1,0 +1,29 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5445/auth_services
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  application:
+    name: auth-service
+
+application:
+  security:
+    jwt:
+      secret-key: "unasecretamuylargaunasecretamuylargaunasecretamuylarga1234"
+      expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
