@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -33,28 +35,29 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
 
-        var userDetails = org.springframework.security.core.userdetails.User
+        org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
                 .authorities("USER")
                 .accountLocked(!user.getIsActive())
                 .build();
 
-        var jwtToken = jwtService.generateToken(userDetails);
+        var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
     }
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
                         request.password()
                 )
         );
 
-        var userDetails = (UserDetails) authentication.getPrincipal();
-        var jwtToken = jwtService.generateToken(userDetails);
+        var jwtToken = jwtService.generateToken(
+                userRepository.findByEmail(request.email()).orElse(UserEntity.builder().build())
+        );
         return new AuthenticationResponse(jwtToken);
     }
 }
