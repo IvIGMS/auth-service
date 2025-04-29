@@ -29,4 +29,7 @@ public class UserEntity {
 
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @Column(nullable = false)
+    private Long storeId;
 }

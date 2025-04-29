@@ -29,6 +29,7 @@ public class AuthenticationService {
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .isActive(true)
+                .storeId(request.storeId())
                 .build();
         userRepository.save(user);
 
