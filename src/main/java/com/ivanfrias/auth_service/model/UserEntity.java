@@ -1,5 +1,6 @@
 package com.ivanfrias.auth_service.model;
 
+import com.ivanfrias.auth_service.model.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,4 +33,7 @@ public class UserEntity {
 
     @Column(nullable = false)
     private Long storeId;
+
+    @Column(nullable = false)
+    private RoleEnum role;
 }
